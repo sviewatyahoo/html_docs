@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>References</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="basic.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+    <script type="text/javascript">
+    function loadContent(elementSelector, sourceUrl) {
+        $(elementSelector).load(sourceUrl);
+    }
+    </script>
+
+</head>
+<body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#000080" alink="#FF0000">
+  
+   
+<h2>Hadoop References</h2>
+<a target="_blank" href="http://akbarahmed.com/hadoop/">Hadoop References</a>    
+    
+<h2>Summary</h2>
+    
+<h4>Hadoop Startup<a name="Hadoop_Startup"></a></h4>
+<p>To start a Hadoop cluster you will need to start both the HDFS and YARN cluster.</p>
+<p>Format a new distributed filesystem:</p>
+<div>
+<pre>$ $HADOOP_PREFIX/bin/hdfs namenode -format &lt;cluster_name&gt;</pre></div>
+<p>Start the HDFS with the following command, run on the designated NameNode:</p>
+<div>
+<pre>$ $HADOOP_PREFIX/sbin/hadoop-daemon.sh --config $HADOOP_CONF_DIR --script hdfs start namenode</pre></div>
+<p>Run a script to start DataNodes on all slaves:</p>
+<div>
+<pre>$ $HADOOP_PREFIX/sbin/hadoop-daemon.sh --config $HADOOP_CONF_DIR --script hdfs start datanode</pre></div>
+<p>Start the YARN with the following command, run on the designated ResourceManager:</p>
+<div>
+<pre>$ $HADOOP_YARN_HOME/sbin/yarn-daemon.sh --config $HADOOP_CONF_DIR start resourcemanager</pre></div>
+<p>Run a script to start NodeManagers on all slaves:</p>
+<div>
+<pre>$ $HADOOP_YARN_HOME/sbin/yarn-daemon.sh --config $HADOOP_CONF_DIR start nodemanager</pre></div>
+<p>Start a standalone WebAppProxy server. If multiple servers are used with load balancing it should be run on each of them:</p>
+<div>
+<pre>$ $HADOOP_YARN_HOME/sbin/yarn-daemon.sh start proxyserver --config $HADOOP_CONF_DIR</pre></div>
+<p>Start the MapReduce JobHistory Server with the following command, run on the designated server:</p>
+<div>
+<pre>$ $HADOOP_PREFIX/sbin/mr-jobhistory-daemon.sh start historyserver --config $HADOOP_CONF_DIR</pre></div></div>
+<div class="section">
+<h4>Hadoop Shutdown<a name="Hadoop_Shutdown"></a></h4>
+<p>Stop the NameNode with the following command, run on the designated NameNode:</p>
+<div>
+<pre>$ $HADOOP_PREFIX/sbin/hadoop-daemon.sh --config $HADOOP_CONF_DIR --script hdfs stop namenode</pre></div>
+<p>Run a script to stop DataNodes on all slaves:</p>
+<div>
+<pre>$ $HADOOP_PREFIX/sbin/hadoop-daemon.sh --config $HADOOP_CONF_DIR --script hdfs stop datanode</pre></div>
+<p>Stop the ResourceManager with the following command, run on the designated ResourceManager:</p>
+<div>
+<pre>$ $HADOOP_YARN_HOME/sbin/yarn-daemon.sh --config $HADOOP_CONF_DIR stop resourcemanager</pre></div>
+<p>Run a script to stop NodeManagers on all slaves:</p>
+<div>
+<pre>$ $HADOOP_YARN_HOME/sbin/yarn-daemon.sh --config $HADOOP_CONF_DIR stop nodemanager</pre></div>
+<p>Stop the WebAppProxy server. If multiple servers are used with load balancing it should be run on each of them:</p>
+<div>
+<pre>$ $HADOOP_YARN_HOME/sbin/yarn-daemon.sh stop proxyserver --config $HADOOP_CONF_DIR</pre></div>
+<p>Stop the MapReduce JobHistory Server with the following command, run on the designated server:</p>
+<div>
+<pre>$ $HADOOP_PREFIX/sbin/mr-jobhistory-daemon.sh stop historyserver --config $HADOOP_CONF_DIR</pre></div></div></div>
+<div class="section">
+<h3><a name="Operating_the_Hadoop_Cluster">Operating the Hadoop Cluster</a></h3>
+<p>Once all the necessary configuration is complete, distribute the files to the <tt>HADOOP_CONF_DIR</tt> directory on all the machines.</p>
+<p>This section also describes the various Unix users who should be starting the various components and uses the same Unix accounts and groups used previously:</p>
+<div class="section">
+<h4>Hadoop Startup<a name="Hadoop_Startup"></a></h4>
+<p>To start a Hadoop cluster you will need to start both the HDFS and YARN cluster.</p>
+<p>Format a new distributed filesystem as <i>hdfs</i>:</p>
+<div>
+<pre>[hdfs]$ $HADOOP_PREFIX/bin/hdfs namenode -format &lt;cluster_name&gt;</pre></div>
+<p>Start the HDFS with the following command, run on the designated NameNode as <i>hdfs</i>:</p>
+<div>
+<pre>[hdfs]$ $HADOOP_PREFIX/sbin/hadoop-daemon.sh --config $HADOOP_CONF_DIR --script hdfs start namenode</pre></div>
+<p>Run a script to start DataNodes on all slaves as <i>root</i> with a special environment variable <tt>HADOOP_SECURE_DN_USER</tt> set to <i>hdfs</i>:</p>
+<div>
+<pre>[root]$ HADOOP_SECURE_DN_USER=hdfs $HADOOP_PREFIX/sbin/hadoop-daemon.sh --config $HADOOP_CONF_DIR --script hdfs start datanode</pre></div>
+<p>Start the YARN with the following command, run on the designated ResourceManager as <i>yarn</i>:</p>
+<div>
+<pre>[yarn]$ $HADOOP_YARN_HOME/sbin/yarn-daemon.sh --config $HADOOP_CONF_DIR start resourcemanager</pre></div>
+<p>Run a script to start NodeManagers on all slaves as <i>yarn</i>:</p>
+<div>
+<pre>[yarn]$ $HADOOP_YARN_HOME/sbin/yarn-daemon.sh --config $HADOOP_CONF_DIR start nodemanager</pre></div>
+<p>Start a standalone WebAppProxy server. Run on the WebAppProxy server as <i>yarn</i>. If multiple servers are used with load balancing it should be run on each of them:</p>
+<div>
+<pre>[yarn]$ $HADOOP_YARN_HOME/bin/yarn start proxyserver --config $HADOOP_CONF_DIR</pre></div>
+<p>Start the MapReduce JobHistory Server with the following command, run on the designated server as <i>mapred</i>:</p>
+<div>
+<pre>[mapred]$ $HADOOP_PREFIX/sbin/mr-jobhistory-daemon.sh start historyserver --config $HADOOP_CONF_DIR</pre></div></div>
+<div class="section">
+<h4>Hadoop Shutdown<a name="Hadoop_Shutdown"></a></h4>
+<p>Stop the NameNode with the following command, run on the designated NameNode as <i>hdfs</i>:</p>
+<div>
+<pre>[hdfs]$ $HADOOP_PREFIX/sbin/hadoop-daemon.sh --config $HADOOP_CONF_DIR --script hdfs stop namenode</pre></div>
+<p>Run a script to stop DataNodes on all slaves as <i>root</i>:</p>
+<div>
+<pre>[root]$ $HADOOP_PREFIX/sbin/hadoop-daemon.sh --config $HADOOP_CONF_DIR --script hdfs stop datanode</pre></div>
+<p>Stop the ResourceManager with the following command, run on the designated ResourceManager as <i>yarn</i>:</p>
+<div>
+<pre>[yarn]$ $HADOOP_YARN_HOME/sbin/yarn-daemon.sh --config $HADOOP_CONF_DIR stop resourcemanager</pre></div>
+<p>Run a script to stop NodeManagers on all slaves as <i>yarn</i>:</p>
+<div>
+<pre>[yarn]$ $HADOOP_YARN_HOME/sbin/yarn-daemon.sh --config $HADOOP_CONF_DIR stop nodemanager</pre></div>
+<p>Stop the WebAppProxy server. Run on the WebAppProxy server as <i>yarn</i>. If multiple servers are used with load balancing it should be run on each of them:</p>
+<div>
+<pre>[yarn]$ $HADOOP_YARN_HOME/bin/yarn stop proxyserver --config $HADOOP_CONF_DIR</pre></div>
+<p>Stop the MapReduce JobHistory Server with the following command, run on the designated server as <i>mapred</i>:</p>
+<div>
+<pre>[mapred]$ $HADOOP_PREFIX/sbin/mr-jobhistory-daemon.sh stop historyserver --config $HADOOP_CONF_DIR</pre></div></div></div>
+
+</body>
+</html>

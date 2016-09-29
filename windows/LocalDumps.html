@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Collecting User Mode Dump In Windows</title>
+</head>
+<!-- Background white, links blue (unvisited), navy (visited), red
+(active) -->
+<body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#000080" alink="#FF0000">
+
+
+    
+        <p>If you experience application crashes you may be asked by support to create a crash dump file. Crash dumps are created automatically by Windows if the following registry key is present:
+
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps
+
+            In order to help support troubleshoot your problem please do the following:</p>
+
+    <p>Create the registry key LocalDumps if it is not present already.</p>
+    <p>Reproduce the problem (i.e. make the application crash).</p>
+    <p>Locate the crash dump file in %LOCALAPPDATA%\CrashDumps. Note that if the crashing application runs under the System account, that resolves to C:\Windows\System32\config\systemprofile\AppData\Local\CrashDumps.</p>
+    <p>Send the crash dump file to support. </p>
+
+    <p>This works on all versions of Windows beginning with Vista and Server 2008 (including Windows 7, Windows 8, Server 2012, etc.).</p>
+
+    
+</body>
+</html>

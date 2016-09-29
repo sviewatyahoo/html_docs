@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Windows Identity and Account</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="basic.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+    <script type="text/javascript">
+    function loadContent(elementSelector, sourceUrl) {
+        $(elementSelector).load(sourceUrl);
+    }
+    </script>
+
+</head>
+<body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#000080" alink="#FF0000">  
+<h2>How to Get Account Info</h2>
+<div>
+<pre>
+// get current user identity
+WindowsIdentity id = WindowsIdentity.GetCurrent();
+var useName = id.Name;
+var authType = id.AuthenticationType;
+ 
+// all user groups (1)
+foreach (var group in id.Groups)
+{
+    // get SID of group
+    Console.WriteLine(group.Value);
+    // translate group SID to name
+    Console.WriteLine(group.Translate(typeof(NTAccount)));
+}
+ 
+// all user groups (2 - better performance)
+foreach (var group in id.Groups.Translate(typeof(NTAccount)))
+{
+    Console.WriteLine(group);
+}
+ 
+ 
+// convert to SID  (Security Identifier)
+NTAccount account = new NTAccount(id.Name);
+var sid = account.Translate(typeof(SecurityIdentifier)));
+ 
+ 
+// get principal
+WindowsPrincipal principal = new WindowsPrincipal(id);
+ 
+// check if user is in role
+// local admin
+var localAdmins = new SecurityIdentifier(WellKnownSidType.BuiltinAdministratorsSid, null);
+var hasAdminRole = principal.IsInRole(localAdmins);
+// Domain admin
+var domainAdmin = new SecurityIdentifier(WellKnownSidType.AccountDomainAdminsSid, id.User.AccountDomainSid);
+var isDomainAdmin =  principal.IsInRole(domainAdmin));
+ 
+ 
+// Principal permission
+new PrincipalPermission(null, "Marketing").Demand(); // throws exception if user doesn't have Marketing role
+ 
+// same but as attribute
+[PrincipalPermission(SecurityAction.Demand, Role="Development Group")]
+private static void DoDeveloperWork()
+{
+    Console.WriteLine("You are a developer");
+}
+</pre>
+</div>
+</body>
+</html>

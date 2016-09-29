@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Test Page for Apache Installation</title>
+</head>
+<!-- Background white, links blue (unvisited), navy (visited), red
+(active) -->
+<body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#000080" alink="#FF0000">
+<div>
+    <pre>git for-each-ref --format='%(committerdate) %09 %(authorname) %09 %(refname)' | sort -k5n -k2M -k3n -k4n</pre>
+</div>
+<div>
+    <pre>  cat .git/refs/heads/<branch></pre>
+</div>
+<div>
+    <pre> git push origin --delete <branch-name> </pre>
+    <pre>git log --pretty=format:'%h|%an|%s' -10 | column -t -s '|'</pre>
+</div>
+<div>
+    <pre> git remote update --prune </pre>
+    <pre> git fetch --all</pre>
+</div>
+    <div>
+        <pre>git diff 9f1e4012 src/something/somefile.c</pre>
+        <pre>git reset 9f1e4012 src/something/somefile.c</pre>
+        <pre>git checkout 9f1e4012 src/something/somefile.c</pre>
+    </div>
+<div>
+    <pre> git submodule add </pre>
+    <pre> git submodule update --init</pre>
+    <pre> git submodule update</pre>
+    <pre> git submodule update --remote --merge</pre>
+    <pre>git submodule foreach `echo $path git rev-parse HEAD`</pre>
+</div>
+    
+<a id="goto_link" target="_blank" href="https://github.com/blog/2019-how-to-undo-almost-anything-with-git">Git Hub</a> <br>
+    
+<a target="_blank" href="http://webchick.net/node/99">git bisect</a>
+    
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Sang Yun's Workspace</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="basic.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+    <script type="text/javascript">
+    function loadContent(elementSelector, sourceUrl) {
+        $(elementSelector).load(sourceUrl);
+       
+    }
+    
+    function reloadObject(href) {
+        var objectEl = document.getElementById('contentarea');
+        var clone = objectEl.cloneNode(true);
+        var parent = objectEl.parentNode;
+        clone.data = href;
+        
+        parent.removeChild(objectEl);
+        parent.appendChild(clone);
+    }
+    </script>
+    <script type='text/javascript'>
+    function check()
+    {
+        return false;
+    }
+    </script>
+    <script type='text/javascript'>
+    $("#goto_link").click(function(e){
+        e.preventDefault();//this will prevent the link trying to navigate to another page
+        var href = $(this).attr("href");//get the href so we can navigate later
+
+        //do the update
+        $('.column-center').data = href;
+        $('.column-center').show();
+        //when update has finished, navigate to the other page
+        // window.location = href;        
+    });
+        
+  $(document).ready(function(){
+//        $(".column-left button").live('click',function(e){
+//            var href = $(this).attr('attr');
+//            $('.column-center').data = href;
+//            $('.column-center').reload();
+//        });
+       $(".column-left button").click(function(e) {
+            e.preventDefault();       
+            $("#column-center").load('http://piano-web.osisoft.int');        
+        }
+    });
+    </script>
+
+</head>
+<!-- Background white, links blue (unvisited), navy (visited), red
+(active) -->
+<body bgcolor="#FFFFFF" text="#000000" link="#0000FF"
+vlink="#000080" alink="#FF0000">
+  
+    <div class="container">
+   
+    <div class="column-left">
+        
+      <h2>Work Related</h2>
+    <a id="goto_link" target="_blank" text="http://osisoft.visualstudio.com" href="reloadObject('http://osisoft.visualstudio.com')">Visual Studio Online</a> <br/>
+    <a target="_blank" href="azure/azure.html">Azure References</a><br/>
+        <a target="_blank" href="https://osisoft1980-my.sharepoint.com/personal/jwong_osisoft_com/_layouts/15/WopiFrame2.aspx?sourcedoc={C1FD2452-92AD-41A4-B7BF-F91D7C450906}&file=PIANOSupportSchedule.xlsx&action=default">Escalation Schedule</a><br/>
+    <a id="goto_link" target="_blank" href="http://osicentral.osisoft.int/">OSIsoft Internal</a><br/>
+    <a href="reading-list.html">Reading Lists</a><br/>
+    <a id="goto_link" target="_blank" href="http://piano-web.osisoft.int">Kanban</a><br/>
+    <a id="goto_link" target="_blank" href="./Analysis_wi_query.html">Work Item Query</a><br/>
+    <a id="goto_link" target="_blank" href="https://osisoft.visualstudio.com/DefaultCollection/PIANO/Analysis/_backlogs/board/Backlog%20items">Backlog</a> <br/>
+    <a id="goto_link" target="_blank" href="./wis/work_items.html">Work Items Work References</a><br/>
+    <a id="goto_link" target="_blank" href="http://referencesource.microsoft.com">.Net c# Code Reference</a><br/>
+    <a id="goto_link" target="_blank" href="http://doclib.osisoft.int/default.aspx?id=77201375-84e9-4cee-9bbf-bec5ada9ee1c">Document Library</a><br/>
+    <a id="goto_link" target="_blank" href="http://search-internal.osisoft.int/">Search Internal 1</a>   <br/>
+    <a id="goto_link" target="_blank" href="http://percy.osisoft.com">Search Internal 2</a><br/>
+    <a id="goto_link" target="_blank" href="http://percy.osisoft.com/InternalSupportCalls/ITSMCall.aspx?SupportCallNumber=572304">Call Number Inquiry</a><br/>
+    <a id="goto_link" target="_blank" href="./TestMachineList.html">Test Machines</a><br/>
+        
+    <a id="goto_link" target="_blank" href="http://blogs.msdn.com/b/visualstudioalm/archive/2012/11/09/how-to-manage-unit-tests-in-visual-studio-2012-update-1-part-1-using-traits-in-the-unit-test-explorer.aspx">VS Test</a> <br/>
+    <a id="goto_link" target="_blank" href="./af/pi-af-references.html">AF & PI Reference</a>  <br/>
+    <a id="goto_link" target="_blank" href="">Analysis</a> <br/>   
+    <a id="goto_link" target="_blank" href="./Tests/slowtests.html">Unit & Integration Tests</a> <br/>   
+    <a id="goto_link" target="_blank" href="./OSIsoft/references.html">References</a> <br/>   
+    <a id="goto_link" target="_blank" href="https://pisquare.osisoft.com/welcome">PI Square</a> <br/>
+    <a id="goto_link"  target="_blank" href="https://osi-jabbr.azurewebsites.net/#/rooms/Analytics">Chatting</a><br/>
+    <a id="goto_link" target="_blank" href="http://jsfiddle.net/XD8RW/1/">Html Test</a><br/> 
+    <a target="_blank" href="http://www.albahari.com/threading/part2.aspx">Threads</a><br/> 
+    <a target="_blank" href="git/git-reference.html">Git Commands</a>   <br/> 
+    <a target="_blank" href="vi-emacs.html">Vi & Emacs Commands</a>   <br/> 
+    <a target="_blank" href="Onboarding.htm">ESRI Onboard Doc</a>   <br/>         
+        
+    <h2>Algorithms</h2>
+    <a target="_blank" href="https://reprog.wordpress.com/2010/04/19/are-you-one-of-the-10-percent/">Binary Tree</a><br/>
+     <a target="_blank" href="https://algospot.com/">Algorithm Spot</a><br/>
+     <a target="_blank" href="http://codingdojang.com/">Coding</a><br/>
+     <a target="_blank" href="algorithm-book-list.html">Document Lists</a><br/>
+    <a target="_blank" href="http://www.gamasutra.com/view/feature/131505/toward_more_realistic_pathfinding.php?print=1">Path Finding</a> </br>        
+    <a target="_blank" href="graphics/references.html">Graphics/Vision</a><br/>
+    <a target="_blank" href="https://www.cs.princeton.edu/courses/archive/fall00/cs426/lectures/raycast/sld005.htm">Ray Tracing</a><br/>
+    <a target="_blank" href="http://scratchapixel.com">Ray Tracing Explained</a>    
+        
+    <h2>Windows</h2>
+    <a target="_blank" href="http://www.youtube.com/watch?v=WTVooKLLVT8">Memory Model</a><br/>
+    <a target="_blank" href="http://www.cs.virginia.edu/~evans/cs216/guides/x86.html">Assembly Reference</a><br/>
+    <a target="_blank" href="./windows/LocalDumps.html">Local Dumps</a><br/>
+    <a target="_blank" href="./windows/windows_identity_n_account.html">Windows Account</a><br/>
+    <a target="_blank" href="./windows/service_account.html">Service Account</a><br/>
+    <a target="_blank" href="./windows/impersonation.html">Impersonation</a><br/>    
+    <a target="_blank" href="./windows/Volatile_IO.html">Volatile IO</a><br/>  
+    <a target= "_blank" href= "https://gist.github.com/magnetikonline/06a49fc3ddae889c23a6#reset-windows-2012r2-local-administrator-password">Reset Local Admin Password</a>
+        
+    <h2>Web</h2>
+    <a target="_blank" href="http://www.html5rocks.com/en/tutorials/internals/howbrowserswork/">How Web Browser Works</a><br/>
+    <a target="_blank" href="http://limpet.net/mbrubeck/2014/08/08/toy-layout-engine-1.html">Toy Engine</a>    <br/>
+    
+        
+    <h2>Distributed Database</h2>
+    <a target="_blank" href="" >Big Table</a> <br/>
+    <a target="_blank" href="./hadoop/hadoop_tutorial.html">Hadoop 2</a><br/>
+    <a target="_blank" href="./hbase/hbase_tutorials.html">HBase</a>    <br/>       
+    <a target="_blank" href="https://hbase.apache.org/book.html#quickstart">OpenTSDB</a>    <br/>
+    <a target="_blank" href="">Graph Database</a>    <br/>
+    <a target="_blank" href="">Write Ahead Log</a>    <br/>
+    <a target="_blank" href="">Log Structured File System</a>    <br/>
+    <a target="_blank" href="./lsm_trees/log_structured_merge_trees.html">Log Structured Merge Tree</a>    <br/>
+    <a target="_blank" href="http://tajo.apache.org/">Tajo</a> <br/>
+    
+        
+    <h2>Training</h2>
+    <a target="_blank" href="http://limn.it/the-morris-worm/">Morris Internet Worm</a> <br/>
+    <a target="_blank" href="http://www.techdesignforums.com/practice/guides/side-channel-analysis-attacks/">Side-Channel Attack</a> <br/>
+    <a target="_blank" href="http://resources.infosecinstitute.com/debugging-fundamentals-for-exploit-development/">Debugger</a> <br/>
+    <a target="_blank" href="http://windbg.info/doc/1-common-cmds.html">WinDBG Reference</a> <br/>
+    <a target="_blank" href="https://linuxjourney.com/ ">Linux Basic Tutorial</a> <br/>
+    
+        
+    <h2>Tools</h2>
+    <a target="_blank" href="http://blogs.technet.com/b/srd/">EMET</a>    <br/>
+    <a target="_blank" href="./Shared/msqueue.html">Lock Free Queue Example</a>  <br/>
+    <a target="_blank" href="./Shared/xml_tree_retrieval_expression.html">Expression for XML Tree Retrieval</a>  <br/>
+    <a target="_blank" href="http://learnyouahaskell.com/introduction#about-this-tutorial">Haskell Tutorial</a> <br/>
+    
+    <h2>DIY</h2>
+    <a target="_blank" href="http://gnuu.org/2009/09/18/writing-your-own-toy-compiler/">Simple Compiler Using Flex, Bison, and LLVM</a><br/>
+    <a target="_blank" href="http://www.superfrink.net/athenaeum/">Simple OS</a><br/>      
+    </div>
+    
+        <div class="column-center">            
+        </div>
+   
+       <div class="column-right"> 
+        <object type="text/html" data="https://osi-jabbr.azurewebsites.net/#/rooms/Analytics" width="1500px" height="800px" ></object>
+       </div>        
+    </div>
+</body>
+</html>
+

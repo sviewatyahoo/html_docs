@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>References</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="basic.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+        <script type="text/javascript">
+            function loadContent(elementSelector, sourceUrl) {
+                $(elementSelector).load(sourceUrl);
+            }
+        </script>
+        <script>
+            function proceed() {        
+                
+                var workitem = document.getElementById('workitem').value;
+                var retValue;
+                var pattern = /^[0-9]+$/;
+                if (pattern.test(workitem.trim()))
+                {
+                    retValue = true;
+                }            
+                else 
+                {
+                    retvalue = false;
+                }
+                
+                if (!retValue) {
+                    alert("Input is not valid.")
+                } else {
+                    var url = "https://osisoft.visualstudio.com/DefaultCollection/PIANO/Analysis/_workitems#id=" + workitem + "&triage=true&_a=edit";
+                    var component = "<a href=\"" + url + "\">Link</a>";                    
+                    var myDiv = document.getElementById('content');
+                    myDiv.innerHTML = component;
+                    document.$('#content').load(component);
+                }
+            }
+        </script>
+    </head>
+    
+    <body>
+
+        <h2>Analysis Work Item Query</h2>
+        <div>
+            <input type="text" name="workitem" id="workitem">
+            <button onclick="proceed()">Submit</button>
+        </div>
+          
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        
+         <h2>Result</h2>
+        <div id="content" name="bottom">
+        </div>
+    </body>
+</html> 

@@ -1,0 +1,437 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=Generator content="Microsoft Word 15 (filtered)">
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:"Malgun Gothic";
+	panose-1:2 11 5 3 2 0 0 2 0 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:Consolas;
+	panose-1:2 11 6 9 2 2 4 3 2 4;}
+@font-face
+	{font-family:"\@Malgun Gothic";
+	panose-1:2 11 5 3 2 0 0 2 0 4;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	line-height:107%;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+p
+	{margin-right:0in;
+	margin-left:0in;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;}
+code
+	{font-family:"Courier New";}
+pre
+	{mso-style-link:"HTML Preformatted Char";
+	margin:0in;
+	margin-bottom:.0001pt;
+	font-size:10.0pt;
+	font-family:"Courier New";}
+span.HTMLPreformattedChar
+	{mso-style-name:"HTML Preformatted Char";
+	mso-style-link:"HTML Preformatted";
+	font-family:"Courier New";}
+span.com
+	{mso-style-name:com;}
+span.pln
+	{mso-style-name:pln;}
+span.pun
+	{mso-style-name:pun;}
+span.lit
+	{mso-style-name:lit;}
+span.typ
+	{mso-style-name:typ;}
+span.kwd
+	{mso-style-name:kwd;}
+span.apple-converted-space
+	{mso-style-name:apple-converted-space;}
+.MsoChpDefault
+	{font-family:"Calibri",sans-serif;}
+.MsoPapDefault
+	{margin-bottom:8.0pt;
+	line-height:107%;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+ /* List Definitions */
+ ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
+-->
+</style>
+
+</head>
+
+<body lang=EN-US>
+
+<div class=WordSection1>
+
+<p class=MsoNormal style='line-height:normal'><span style='font-size:12.0pt;
+font-family:"Times New Roman",serif'>Volatile IO</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span style='font-size:12.0pt;
+font-family:"Times New Roman",serif'>First we need to agree on some basic
+definitions.</span></p>
+
+<ul type=disc>
+ <li class=MsoNormal style='line-height:normal'><span style='font-size:12.0pt;
+     font-family:"Times New Roman",serif'>acquire-fence: A memory barrier in
+     which other reads and writes are not allowed to move before the fence.</span></li>
+ <li class=MsoNormal style='line-height:normal'><span style='font-size:12.0pt;
+     font-family:"Times New Roman",serif'>release-fence: A memory barrier in
+     which other reads and writes are not allowed to move after the fence.</span></li>
+</ul>
+
+<p class=MsoNormal style='line-height:normal'><span style='font-size:12.0pt;
+font-family:"Times New Roman",serif'>I like to use an arrow notation to help
+illustrate the fences in action. An &#8593; arrow will represent a
+release-fence and a &#8595; arrow will represent an acquire-fence. Think of the
+arrow head as pushing memory access away in the direction of the arrow. But,
+and this is important, memory accesses can move past the tail. Read the
+definitions of the fences above and convince yourself that the arrows visually
+represent those definitions.</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span style='font-size:12.0pt;
+font-family:"Times New Roman",serif'>Using this notation let us analyze the
+examples from <a href="http://stackoverflow.com/a/22569531/158779"><span
+style='color:blue'>JaredPar's answer</span></a> starting with </span><span
+style='font-size:10.0pt;font-family:"Courier New"'>Volatile.Read</span><span
+style='font-size:12.0pt;font-family:"Times New Roman",serif'>. But, first let
+me make the point that </span><span style='font-size:10.0pt;font-family:"Courier New"'>Console.WriteLine</span><span
+style='font-size:12.0pt;font-family:"Times New Roman",serif'> <i>probably</i>
+produces a full-fence barrier unbeknownst to us. We should pretend for a moment
+that it does not to make the examples easier to follow. In fact, I will just
+omit the call entirely as it is unnecessary in the context of what we are
+trying to achieve.</span></p>
+
+<p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+normal'><span style='font-size:10.0pt;font-family:"Courier New"'>// Example
+using Volatile.Read</span></p>
+
+<p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+normal'><span style='font-size:10.0pt;font-family:"Courier New"'>x = 13;</span></p>
+
+<p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+normal'><span style='font-size:10.0pt;font-family:"Courier New"'>var local = y;
+// Volatile.Read</span></p>
+
+<p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+normal'><span style='font-size:10.0pt;font-family:"Courier New"'>&#8595;             
+// acquire-fence</span></p>
+
+<p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+normal'><span style='font-size:10.0pt;font-family:"Courier New"'>z = 13;</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span style='font-size:12.0pt;
+font-family:"Times New Roman",serif'>So using the arrow notation we more easily
+see that the write to </span><span style='font-size:10.0pt;font-family:"Courier New"'>z</span><span
+style='font-size:12.0pt;font-family:"Times New Roman",serif'> cannot move up
+and before the read of </span><span style='font-size:10.0pt;font-family:"Courier New"'>y</span><span
+style='font-size:12.0pt;font-family:"Times New Roman",serif'>. Nor can the
+write move down and after the read because that would be effectively same as
+the other way around. However, the read of </span><span style='font-size:10.0pt;
+font-family:"Courier New"'>y</span><span style='font-size:12.0pt;font-family:
+"Times New Roman",serif'> and the write to </span><span style='font-size:10.0pt;
+font-family:"Courier New"'>x</span><span style='font-size:12.0pt;font-family:
+"Times New Roman",serif'> can be swapped as there is no arrow head preventing
+that movement. Likewise, the write to </span><span style='font-size:10.0pt;
+font-family:"Courier New"'>x</span><span style='font-size:12.0pt;font-family:
+"Times New Roman",serif'> can move past the tail of the arrow and even past the
+write to </span><span style='font-size:10.0pt;font-family:"Courier New"'>z</span><span
+style='font-size:12.0pt;font-family:"Times New Roman",serif'>. The
+specification technically allows for that..theoretically anway. That means we
+have the following valid orderings.</span></p>
+
+<p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+normal'><span style='font-size:10.0pt;font-family:"Courier New"'>Volatile.Read</span></p>
+
+<p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+normal'><span style='font-size:10.0pt;font-family:"Courier New"'>---------------------------------------</span></p>
+
+<p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+normal'><span style='font-size:10.0pt;font-family:"Courier New"'>write x    |   
+read y     |    read y</span></p>
+
+<p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+normal'><span style='font-size:10.0pt;font-family:"Courier New"'>read y     |   
+write x    |    write z</span></p>
+
+<p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+normal'><span style='font-size:10.0pt;font-family:"Courier New"'>write z    |   
+write z    |    write x</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span style='font-size:12.0pt;
+font-family:"Times New Roman",serif'>Now let us move on to the example with </span><span
+style='font-size:10.0pt;font-family:"Courier New"'>Thread.VolatileRead</span><span
+style='font-size:12.0pt;font-family:"Times New Roman",serif'>. For the sake of
+the example I will inline the call to </span><span style='font-size:10.0pt;
+font-family:"Courier New"'>Thread.VolatileRead</span><span style='font-size:
+12.0pt;font-family:"Times New Roman",serif'> to make it easier to visualize.</span></p>
+
+<p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+normal'><span style='font-size:10.0pt;font-family:"Courier New"'>// Example
+using Thread.VolatileRead</span></p>
+
+<p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+normal'><span style='font-size:10.0pt;font-family:"Courier New"'>x = 13;</span></p>
+
+<p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+normal'><span style='font-size:10.0pt;font-family:"Courier New"'>var local = y;
+// inside Thread.VolatileRead</span></p>
+
+<p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+normal'><span style='font-size:10.0pt;font-family:"Courier New"'>&#8593;             
+// Thread.MemoryBarrier / release-fence</span></p>
+
+<p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+normal'><span style='font-size:10.0pt;font-family:"Courier New"'>&#8595;        
+     // Thread.MemoryBarrier / acquire-fence</span></p>
+
+<p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+normal'><span style='font-size:10.0pt;font-family:"Courier New"'>z = 13;</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span style='font-size:12.0pt;
+font-family:"Times New Roman",serif'>Look closely. There is no arrow (because
+there is no memory barrier) between the write to </span><span style='font-size:
+10.0pt;font-family:"Courier New"'>x</span><span style='font-size:12.0pt;
+font-family:"Times New Roman",serif'> and the read of </span><span
+style='font-size:10.0pt;font-family:"Courier New"'>y</span><span
+style='font-size:12.0pt;font-family:"Times New Roman",serif'>. That means these
+memory accesses are still free to move around relative to each other. However,
+the call to </span><span style='font-size:10.0pt;font-family:"Courier New"'>Thread.MemoryBarrier</span><span
+style='font-size:12.0pt;font-family:"Times New Roman",serif'>, which produces
+the additional release-fence, makes it appear as if the next memory access had
+volatile write semantics. This means the writes to </span><span
+style='font-size:10.0pt;font-family:"Courier New"'>x</span><span
+style='font-size:12.0pt;font-family:"Times New Roman",serif'> and </span><span
+style='font-size:10.0pt;font-family:"Courier New"'>z</span><span
+style='font-size:12.0pt;font-family:"Times New Roman",serif'> can no longer be
+swapped.</span></p>
+
+<p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+normal'><span style='font-size:10.0pt;font-family:"Courier New"'>Thread.VolatileRead</span></p>
+
+<p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+normal'><span style='font-size:10.0pt;font-family:"Courier New"'>-----------------------</span></p>
+
+<p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+normal'><span style='font-size:10.0pt;font-family:"Courier New"'>write x    |   
+read y</span></p>
+
+<p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+normal'><span style='font-size:10.0pt;font-family:"Courier New"'>read y     |   
+write x</span></p>
+
+<p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+normal'><span style='font-size:10.0pt;font-family:"Courier New"'>write z    |   
+write z</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span style='font-size:12.0pt;
+font-family:"Times New Roman",serif'>Of course it has been claimed that
+Microsoft's implementation of the CLI (the .NET Framework) and the x86 hardware
+already guarantee release-fence semantics for all writes. So in that case there
+may not be any difference between the two calls. On an ARM processor with Mono?
+Things might be different in that case.</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span style='font-size:12.0pt;
+font-family:"Times New Roman",serif'>Let us move on now to your questions.</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span style='font-size:12.0pt;
+font-family:"Times New Roman",serif'>Because of the full memory barrier on the
+second line of the implementation, I believe that VolatileRead actually ensures
+that the value last written to address will be read. Is my understanding
+correct?</span></p>
+
+<p class=MsoNormal style='line-height:normal'><b><span style='font-size:12.0pt;
+font-family:"Times New Roman",serif'>No</span></b><span style='font-size:12.0pt;
+font-family:"Times New Roman",serif'>. This is not correct! A volatile read is
+not the same as a &quot;fresh read&quot;. Why? It is because the memory barrier
+is placed <i>after</i> the read instruction. That means the actual read is
+still free to move up or backwards in time. Another thread could write to the
+address, but the current thread might have already moved the read to a point in
+time <i>before</i> that other thread committed it. </span></p>
+
+<p class=MsoNormal style='line-height:normal'><span style='font-size:12.0pt;
+font-family:"Times New Roman",serif'>So this begs the question, &quot;Why do
+people bother using volatile reads if it seemingly guarantees so little?&quot;.
+The answer is that it absolutely guarantees that the next read will be <i>newer</i>
+than the previous read. That is its value! That is why a lot of lock-free code
+spins in a loop until the logic can determine that the operation was completed
+successfully. In other words, lock-free code exploits the concept that the
+later read in a sequence of many reads will return a <i>newer</i> value, but
+the code should not assume that any of the reads necessarily represent the <i>latest</i>
+value.</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span style='font-size:12.0pt;
+font-family:"Times New Roman",serif'>Think about this for a minute. What does
+it even mean for a read to return the latest value anyway? By the time you use
+that value it might not be the latest anymore. Another thread may have already
+written a different value to the same address. Can you still call that value
+the latest? Just some food for thought...</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span style='font-size:12.0pt;
+font-family:"Times New Roman",serif'>And therefore, does Thread.VolatileRead
+still offer something that Volatile.Read does not?</span></p>
+
+<p class=MsoNormal style='line-height:normal'><b><span style='font-size:12.0pt;
+font-family:"Times New Roman",serif'>Yes</span></b><span style='font-size:12.0pt;
+font-family:"Times New Roman",serif'>. I think JaredPar presented a perfect
+example of a case where it can offer something additional.</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span style='font-size:12.0pt;
+font-family:"Times New Roman",serif'>The </span><span style='font-size:10.0pt;
+font-family:"Courier New"'>Volatile.Read</span><span style='font-size:12.0pt;
+font-family:"Times New Roman",serif'> essentially guarantees that read and
+write operations which occur after it cannot be moved before the read. It says
+nothing about preventing write operations which occur before the read from
+moving past it. For example</span></p>
+
+<p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+normal'><span style='font-size:10.0pt;font-family:"Courier New"'>// assume x, y
+and z are declared </span></p>
+
+<p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+normal'><span style='font-size:10.0pt;font-family:"Courier New"'>x = 13;</span></p>
+
+<p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+normal'><span style='font-size:10.0pt;font-family:"Courier New"'>Console.WriteLine(Volatile.Read(ref
+y));</span></p>
+
+<p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+normal'><span style='font-size:10.0pt;font-family:"Courier New"'>z = 13;</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span style='font-size:12.0pt;
+font-family:"Times New Roman",serif'>There is no guarantee that the write to </span><span
+style='font-size:10.0pt;font-family:"Courier New"'>x</span><span
+style='font-size:12.0pt;font-family:"Times New Roman",serif'> occurs before the
+read of </span><span style='font-size:10.0pt;font-family:"Courier New"'>y</span><span
+style='font-size:12.0pt;font-family:"Times New Roman",serif'>. However the
+write to </span><span style='font-size:10.0pt;font-family:"Courier New"'>z</span><span
+style='font-size:12.0pt;font-family:"Times New Roman",serif'> is guaranteed to
+occur after the read of </span><span style='font-size:10.0pt;font-family:"Courier New"'>y</span><span
+style='font-size:12.0pt;font-family:"Times New Roman",serif'>. </span></p>
+
+<p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+normal'><span style='font-size:10.0pt;font-family:"Courier New"'>// assume x, y
+and z are declared </span></p>
+
+<p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+normal'><span style='font-size:10.0pt;font-family:"Courier New"'>x = 13;</span></p>
+
+<p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+normal'><span style='font-size:10.0pt;font-family:"Courier New"'>Console.WriteLine(Thread.VolatileRead(ref
+y));</span></p>
+
+<p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+normal'><span style='font-size:10.0pt;font-family:"Courier New"'>z = 13;</span></p>
+
+<p class=MsoNormal style='line-height:normal'><span style='font-size:12.0pt;
+font-family:"Times New Roman",serif'>In this case though you can be guaranteed
+that the order here is </span></p>
+
+<ul type=disc>
+ <li class=MsoNormal style='line-height:normal'><span style='font-size:12.0pt;
+     font-family:"Times New Roman",serif'>write x</span></li>
+ <li class=MsoNormal style='line-height:normal'><span style='font-size:12.0pt;
+     font-family:"Times New Roman",serif'>read y </span></li>
+ <li class=MsoNormal style='line-height:normal'><span style='font-size:12.0pt;
+     font-family:"Times New Roman",serif'>write z</span></li>
+</ul>
+
+<div style='border:none;border-bottom:double windowtext 2.25pt;padding:0in 0in 1.0pt 0in'>
+
+<p class=MsoNormal style='line-height:normal;border:none;padding:0in'><span
+style='font-size:12.0pt;font-family:"Times New Roman",serif'>The full fence
+prevents both reads and writes from moving across it in either direction </span></p>
+
+</div>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+14.65pt;background:white'><span style='font-size:11.5pt;font-family:"Arial",sans-serif;
+color:#242729'>It is bad form to use&nbsp;</span><span style='font-size:10.0pt;
+font-family:Consolas;color:#242729;background:#EFF0F1'>this</span><span
+style='font-size:11.5pt;font-family:"Arial",sans-serif;color:#242729'>&nbsp;in
+lock statements because it is generally out of your control who else might be
+locking on that object.</span></p>
+
+<p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+14.65pt;background:white'><span style='font-size:11.5pt;font-family:"Arial",sans-serif;
+color:#242729'>&nbsp;</span></p>
+
+<p class=MsoNormal style='margin-bottom:12.0pt;line-height:14.65pt;background:
+white'><span style='font-size:11.5pt;font-family:"Arial",sans-serif;color:#242729'>In
+order to properly plan parallel operations, special care should be taken to
+consider possible deadlock situations, and having an unknown number of lock
+entry points hinders this. For example, any one with a reference to the object
+can lock on it without the object designer/creator knowing about it. This
+increases the complexity of multi-threaded solutions and might affect their
+correctness.</span></p>
+
+<p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+14.65pt;background:white'><span style='font-size:11.5pt;font-family:"Arial",sans-serif;
+color:#242729'>A private field is usually a better option as the compiler will
+enforce access restrictions to it, and it will encapsulate the locking
+mechanism. Using&nbsp;</span><span style='font-size:10.0pt;font-family:Consolas;
+color:#242729;background:#EFF0F1'>this</span><span style='font-size:11.5pt;
+font-family:"Arial",sans-serif;color:#242729'>&nbsp;violates encapsulation by
+exposing part of your locking implementation to the public. It is also not
+clear that you will be acquiring a lock on&nbsp;</span><span style='font-size:
+10.0pt;font-family:Consolas;color:#242729;background:#EFF0F1'>this</span><span
+style='font-size:11.5pt;font-family:"Arial",sans-serif;color:#242729'>&nbsp;unless
+it has been documented. Even then, relying on documentation to prevent a
+problem is sub-optimal.</span></p>
+
+<p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+14.65pt;background:white'><span style='font-size:11.5pt;font-family:"Arial",sans-serif;
+color:#242729'>Finally, there is the common misconception that&nbsp;</span><span
+style='font-size:10.0pt;font-family:Consolas;color:#242729;background:#EFF0F1'>lock(this)</span><span
+style='font-size:11.5pt;font-family:"Arial",sans-serif;color:#242729'>&nbsp;actually
+modifies the object passed as a parameter, and in some way makes it read-only
+or inaccessible. This is&nbsp;<b>false</b>. The object passed as a parameter to&nbsp;</span><span
+style='font-size:10.0pt;font-family:Consolas;color:#242729;background:#EFF0F1'>lock</span><span
+style='font-size:11.5pt;font-family:"Arial",sans-serif;color:#242729'>&nbsp;merely
+serves as a&nbsp;<b>key</b>. If a lock is already being held on that key, the
+lock cannot be made; otherwise, the lock is allowed.</span></p>
+
+<p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+14.65pt;background:white'><span style='font-size:11.5pt;font-family:"Arial",sans-serif;
+color:#242729'>This is why it's bad to use strings as the keys in&nbsp;</span><span
+style='font-size:10.0pt;font-family:Consolas;color:#242729;background:#EFF0F1'>lock</span><span
+style='font-size:11.5pt;font-family:"Arial",sans-serif;color:#242729'>&nbsp;statements,
+since they are immutable and are shared/accessible across parts of the
+application. You should use a private variable instead, an&nbsp;</span><span
+style='font-size:10.0pt;font-family:Consolas;color:#242729;background:#EFF0F1'>Object</span><span
+style='font-size:11.5pt;font-family:"Arial",sans-serif;color:#242729'>&nbsp;instance
+will do nicely.</span></p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+</div>
+
+</body>
+
+</html>

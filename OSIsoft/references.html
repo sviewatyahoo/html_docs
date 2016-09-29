@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>PI Systems</h2>
+<a href="https://tswiki.osisoft.int/tswiki/pi_system_security_visual_aids">PI System Security Visual Aids</a>
+<a href="https://tswiki.osisoft.int/kb_articles/kb01120_filtered_calculations_in_asset_analytics">Filtered Summarization Functions</a>
+
+    <h2>C# References</h2>
+<a href="https://msdn.microsoft.com/en-us/library/d5x73970.aspx">Type Parameters</a>
+<prep>
+    
+
+C:\Program Files\PI\adm>(net start pipeschd   & pidiag -w 2000  )
+The PI Performance Equation Scheduler service is starting.
+The PI Performance Equation Scheduler service was started successfully.
+
+
+C:\Program Files\PI\adm>(net start pibatch   & pidiag -w 2000  )
+The PI Batch Subsystem service is starting.
+The PI Batch Subsystem service was started successfully.
+
+Starting PIAnalyticsScheduler
+The PI Notifications Scheduler service is starting.
+The PI Notifications Scheduler service was started successfully.
+
+
+Starting pilogsrv
+The PIPC Log Server service is starting.
+The PIPC Log Server service was started successfully.
+
+
+Calling PI Server Site Startup...
+
+C:\Program Files\PI\adm>call pisrvsitestart.bat
+
+C:\Program Files\PI\adm>REM Non-Interactive Site Specific startup file. This fil
+e
+
+C:\Program Files\PI\adm>REM should be modified to start site specific services
+
+C:\Program Files\PI\adm>REM related to PI. This file will not be overwritten
+
+C:\Program Files\PI\adm>REM on upgrade. Instead new versions will be written
+
+C:\Program Files\PI\adm>REM as pisrvsitestart.bat.new for review and integration
+
+
+C:\Program Files\PI\adm>REM by the PI Administrator.
+
+C:\Program Files\PI\adm>REM $Workfile: pisrvsitestart.bat $ $Revision: 11 $
+
+C:\Program Files\PI\adm>echo Starting Site Specific PI System Services...
+Starting Site Specific PI System Services...
+
+C:\Program Files\PI\adm>net start rmp_sk
+The PI Ramp Soak Simulator (rmp_sk) Interface X64 service is starting.
+The PI Ramp Soak Simulator (rmp_sk) Interface X64 service was started successful
+ly.
+
+
+C:\Program Files\PI\adm>net start random
+The PI Random Simulator (random) Interface X64 service is starting.
+The PI Random Simulator (random) Interface X64 service was started successfully.
+
+
+
+C:\Program Files\PI\adm>rem
+
+C:\Program Files\PI\adm>rem The following interfaces are not started by default.
+
+
+C:\Program Files\PI\adm>rem Remove the remarks "rem" below to start the interfac
+es.
+
+C:\Program Files\PI\adm>rem
+
+C:\Program Files\PI\adm>rem net start piperfmon
+
+C:\Program Files\PI\adm>rem net start piping
+
+C:\Program Files\PI\adm>rem net start pisnmp
+
+C:\Program Files\PI\adm>rem net start pibagen
+
+C:\Program Files\PI\adm>rem net start pirecalc
+Current mode: Open
+
+C:\Program Files\PI\adm>net start
+These Windows services are started:
+
+   Application Experience
+   Application Information
+   Application Management
+   Background Intelligent Transfer Service
+   Background Tasks Infrastructure Service
+   Base Filtering Engine
+   Certificate Propagation
+   CNG Key Isolation
+   COM+ Event System
+   Configuration Manager Remote Control
+   Cryptographic Services
+   DCOM Server Process Launcher
+   DHCP Client
+   Diagnostic Policy Service
+   Diagnostics Tracking Service
+   Distributed Link Tracking Client
+   Distributed Transaction Coordinator
+   DNS Client
+   Group Policy Client
+   Hyper-V Data Exchange Service
+   Hyper-V Guest Shutdown Service
+   Hyper-V Heartbeat Service
+   Hyper-V Remote Desktop Virtualization Service
+   Hyper-V Time Synchronization Service
+   Hyper-V Volume Shadow Copy Requestor
+   IKE and AuthIP IPsec Keying Modules
+   IP Helper
+   IPsec Policy Agent
+   Local Session Manager
+   Microsoft Antimalware Service
+   Netlogon
+   Network List Service
+   Network Location Awareness
+   Network Store Interface Service
+   PI AF Application Service
+   PI Alarm Subsystem
+   PI Archive Subsystem
+   PI Backup Subsystem
+   PI Base Subsystem
+   PI Batch Subsystem
+   PI License Manager
+   PI Message Subsystem
+   PI Network Manager
+   PI Notifications Scheduler
+   PI Performance Equation Scheduler
+   PI Ramp Soak Simulator (rmp_sk) Interface X64
+   PI Random Simulator (random) Interface X64
+   PI Snapshot Subsystem
+   PI SQL Subsystem
+   PI Totalizer Subsystem
+   PI Update Manager
+   PIPC Log Server
+   Power
+   Print Spooler
+   Remote Desktop Configuration
+   Remote Desktop Services
+   Remote Desktop Services UserMode Port Redirector
+   Remote Procedure Call (RPC)
+   RPC Endpoint Mapper
+   Security Accounts Manager
+   Server
+   Shell Hardware Detection
+   Smart Card Device Enumeration Service
+   SMS Agent Host
+   SQL Server (MSSQLSERVER)
+   SQL Server VSS Writer
+   System Event Notification Service
+   System Events Broker
+   Task Scheduler
+   TCP/IP NetBIOS Helper
+   Themes
+   User Access Logging Service
+   User Profile Service
+   Volume Shadow Copy
+   Windows Connection Manager
+   Windows Event Log
+   Windows Firewall
+   Windows Font Cache Service
+   Windows Management Instrumentation
+   Windows Remote Management (WS-Management)
+   Windows Time
+   WinHTTP Web Proxy Auto-Discovery Service
+   Workstation
+
+The command completed successfully.
+
+
+C:\Program Files\PI\adm>piartool
+Usage: piartool -<command> [options]
+      For specific command options type: piartool -<command> -h
+
+aag      Archive Activity Grid display and control
+ac       Create and register an Archive File
+acd      Create and register a Dynamic Archive File
+ads      Archive Shift Disable
+aes      Archive Shift Enable
+afl      Monitor/Control AF link
+al       Archive List
+ar       Register Archive File
+as       Archive Summary and Counters
+au       Archive file Unregister
+aw       Archive Record Walk
+backup   Start a backup or issue a backup command
+bfs      Buffered source statistics
+block    Block until specified subsystem responds or timeout is exceeded
+cad      Archive cache diagnostics for a specified point
+cas      Archive cache summary
+de       Dump Event Queue file (PI 3.3 and earlier)
+flush    Flush archive(s) (for testing)
+fs       Archive Force Shift
+idci     For ID Conversion file creation, use piarchss -idci
+lic      License allocation and usage information
+module   PI Modules lookup by UIDs
+msg      Send message(s) to the PI message log
+ooo      Tags with Out-Of-Order events. Optional Reset, Repeat
+qs       Memory-mapped event queue summary
+qwait    Wait for event queue to empty.
+sd       Snapshot record dump of specified point(s)
+ss       Snapshot summary
+sys      Collective and server commands
+systembackup     Subsystem offline mode for audit file access
+thread   List a subsystem's threads.
+upd      Update Producer Information (from the Producer not the Update Manager)
+
+C:\Program Files\PI\adm>piartool -al
+Archive shift prediction:
+        Shift Time: Not enough information for prediction
+    Target Archive: No available target archive for shift
+
+C:\Program Files\PI\adm>piartool -ar
+
+C:\Program Files\PI\adm>piartool -ar "c:\Program Files\pi\dat\OSI-APP1_2015-12-1
+7_09-00-11.arc"
+Attempting to register archive file: c:\Program Files\pi\dat\OSI-APP1_2015-12-17
+_09-00-11.arc
+Archive registration completed successfully.
+
+
+C:\Program Files\PI\adm>piartool -ar "c:\Program Files\pi\dat\OSI-APP1_2015-12-2
+8_06-26-06.arc"
+Attempting to register archive file: c:\Program Files\pi\dat\OSI-APP1_2015-12-28
+_06-26-06.arc
+Archive registration completed successfully.
+
+
+C:\Program Files\PI\adm>piartool -al
+Archive shift prediction:
+        Shift Time: 20-Apr-18 05:25:09
+    Target Archive: c:\Program Files\pi\dat\OSI-APP1_2015-12-17_09-00-11.arc
+
+Archive[0]: c:\Program Files\pi\dat\OSI-APP1_2015-12-28_06-26-06.arc  (512MB, Us
+ed: 13.7%)
+        PIarcfilehead[$Workfile: piarfile.cxx $ $Revision: 143 $]::
+          Version: 10 Path: c:\Program Files\pi\dat\OSI-APP1_2015-12-28_06-26-06
+.arc
+          State: 4 (Mounted) Type: 0 (fixed) Write Flag: 1 Shift Flag: 1
+          Record Size: 1024 Count: 524288  Add Rate/Hour: 25.9
+          Offsets: Primary: 33775/262144/0 Overflow: 464314/524288
+          Annotations: 1  Annotation File Size: 2064
+               Start Time: 28-Dec-15 06:26:02
+                 End Time: Current Time
+              Backup Time: 29-Dec-15 03:15:20
+            Last Modified: 29-Dec-15 13:45:07
+
+Archive[1]: c:\Program Files\pi\dat\OSI-APP1_2015-12-17_09-00-11.arc  (624MB, Us
+ed: 0.0%)
+        PIarcfilehead[$Workfile: piarfile.cxx $ $Revision: 143 $]::
+          Version: 10 Path: c:\Program Files\pi\dat\OSI-APP1_2015-12-17_09-00-11
+.arc
+          State: 4 (Mounted) Type: 2 (autodyn) Write Flag: 1 Shift Flag: 1
+          Record Size: 1024 Count: 524288  Add Rate/Hour: 2516.1
+          Offsets: Primary: 33647/33647/0 Overflow: 639111/2146435072
+          Annotations: 1  Annotation File Size: 2064
+               Start Time: 17-Dec-15 09:00:07
+                 End Time: 28-Dec-15 06:26:02
+              Backup Time: 29-Dec-15 03:15:20
+            Last Modified: 29-Dec-15 11:36:46
+
+C:\Program Files\PI\adm>pisnap
+
+C:\Program Files\PI\adm>rem
+
+C:\Program Files\PI\adm>rem pisnap.bat
+
+C:\Program Files\PI\adm>rem
+
+C:\Program Files\PI\adm>rem Run API Test Program Against Local Node
+
+C:\Program Files\PI\adm>rem
+
+C:\Program Files\PI\adm>apisnap localhost:5450
+
+APISNAP version 1.6.1.10
+PI-API version 1.6.8.22
+ Attempting connection to localhost:5450
+
+Enter tagname:  sinujsoid
+
+Tag sinujsoid does not exist
+
+Enter tagname:  sinusoid
+
+
+  Tag = SINUSOID   Point Number = 1   Type = Real-32
+  12 Hour Sine Wave
+
+                Snapshot value
+  Value = 22.737                22-Apr-16 10:53:55
+  Status = Good
+
+              Latest archive value
+  Value = 19.533                22-Apr-16 10:44:55
+  Status = Good
+
+
+Enter tagname:  slee-test
+
+Tag slee-test does not exist
+
+Enter tagname:
+</prep>
+</body>
+</html> 

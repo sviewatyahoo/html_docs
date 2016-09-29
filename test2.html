@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-16"?>
+<!DOCTYPE html >
+<html>
+  <title>PI Notifications Migration Report</title>
+  <style>
+
+        body {
+            background: #F3F3F4;
+            color: #1E1E1F;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* For the report title */
+        h1 {
+            padding: 5px 0px 5px 5px;
+            font-size: 21pt;
+            background-color: #E2E2E2;
+            border-bottom: 1px #C1C1C2 solid; 
+            color: #201F20;
+            margin: 0;
+            font-weight: normal;
+        }
+
+        /* For Summary and N/NT sections */
+        h2 {
+            font-size: 18pt;
+            font-weight: normal;
+            padding: 15px 0 5px 0;
+            margin: 0;
+            color: #1382CE;
+        }
+
+        /* For sub-sections for success and failure */
+        h3 {
+            font-weight: normal;
+            font-size: 15pt;
+            margin: 0;
+            padding: 0;
+            background-color: transparent;
+        }
+
+        .green { 
+            color: green;
+        }
+
+        .yellow {
+            color: gold;
+        }
+
+        .red { 
+            color: red;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 3px;
+            border: 1px solid #ddd;
+            word-wrap: break-word;
+        }
+
+        #summary th, #summary td {
+            border: 0;
+        }
+
+        th {
+            background-color: #007DC3;
+            color: white;
+            text-align: left;
+        }
+
+        td.headerCell {
+            border: none;
+        }
+
+        a {
+            color: #1382CE
+        }
+
+        ol {
+            padding: 0;
+            margin:0;
+            word-wrap: break-word;
+            word-break:break-all;
+        }
+
+        ol li {
+            padding: 0;
+            margin-left: 35px;
+            word-wrap: break-word;
+            word-break:break-all;
+        }
+
+.img-common {
+    background-repeat: no-repeat;
+    height:16px;
+    width:16px;
+    background-position:center;
+}
+
+.img-minus {
+    background-image:url("data:image/gif;base64,R0lGODlhJwAoAPcAAP8A/3t7e4SEhP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP///yH5BAEAAAAALAAAAAAnACgAAAhsAAEIHEiwoMGDCBMqXMiwocOHECNKnEixosWLGDNq3Mixo8ePIEOKHJkwgACTKE96FDCgpcsBAjwGeOkywEqaLWN2nEmgZ88BNjuyxKmT40ycQTkOpVl0Y8qnJKNKnUq1qtWrWLNq3cq1a8GAADs=");
+}
+
+.img-plus {
+    background-image:url("data:image/gif;base64,R0lGODlhJwAoAPcAAP8A/3t7e4SEhP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP///yH5BAEAAAAALAAAAAAnACgAAAhwAAEIHEiwoMGDCBMqXMiwocOHECNKnEixosWLGDNq3Mixo8ePIEOKHJkwgACTKE96FDCgpcsBAjwGcEnAZYCVNF3G7DiTgE+fA252ZNmyZsudHGcWtYnz5VGZJ6OiJEm1qtWrWLNq3cq1q9evYAsGBAA7");
+}
+</style>
+<script type="text/javascript" language="javascript">
+function toggleDisplayById(expandId, contentId) {
+    var exItem = document.getElementById(expandId);
+    var isVisible;
+	if(!exItem) {
+	    return;
+	}
+
+    isVisible = exItem.style.display == ''; 
+    exItem.style.display = isVisible ? 'none' : '';
+
+    var contentItem = document.getElementById(contentId);
+    if (!contentItem) {
+         return;
+    }
+
+    if (isVisible) {
+        // if it was visible, it is now collapsed
+        contentItem.className = "img-common img-plus";
+    } else {
+        contentItem.className = "img-common img-minus";
+    }
+}
+</script>
+<body><h1>PI Notifications Migration report for <br /></h1><div style="padding:2px"><h2>Summary<br /></h2><table id="summary"><tr><td>Started: 1/1/0001 12:00:00 AM</td></tr><tr><td>Ended: 1/1/0001 12:00:00 AM</td></tr><tr><td>Notification templates: 2 of 6 migrated successfully</td></tr><tr><td>Notifications: 2 of 3 migrated successfully</td></tr><tr><td>Notifications or templates with errors: 4</td></tr><tr><td>Notifications or templates with warnings: 1</td></tr><tr><td>Notification Rules created: 2</td></tr><tr><td>Analyses created: 10</td></tr><tr><td>Legacy history instances processed: 78</td></tr><tr><td>Event frames created: 75</td></tr></table><h2><a name="ntfTemplates" onclick="toggleDisplayById('notificationTemplates', 'notificationTemplatesTableExpander')"><span id="notificationTemplatesTableExpander" class="img-common img-minus" style="display:inline-block"></span></a>Notification Templates (6)</h2><table id="notificationTemplates"><tr><th>Outcome</th><th>Element Template</th><th>Legacy Notification Template</th><th>Migrated Notification Rule Template</th><th>Migrated Analysis Template</th><th>Messages</th></tr><tr><td colspan="2" class="headerCell"><a onclick="toggleDisplayById('notificationTemplatesError', 'notificationTemplatesErrorExpander')"><h3><span id="notificationTemplatesErrorExpander" class="img-common img-minus" style="display:inline-block"></span></a>Error (3)</h3></td></tr><tbody id="notificationTemplatesError" style="display:"><tr><td><span class="red">&#x2718;</span></td><td></td><td>name</td><td></td><td></td><td style="width:30%"><ol>Errors (2)<li>cat:errid</li><li>cat:errid</li></ol></td></tr><tr><td><span class="red">&#x2718;</span></td><td></td><td>name</td><td></td><td></td><td style="width:30%"><ol>Errors (2)<li>cat:errid</li><li>cat:errid</li></ol></td></tr><tr><td><span class="red">&#x2718;</span></td><td></td><td>name</td><td></td><td></td><td style="width:30%"><ol>Errors (2)<li>cat:errid</li><li>cat:errid</li></ol></td></tr></tbody><tr><td colspan="2" class="headerCell"><a onclick="toggleDisplayById('notificationTemplatesWarning', 'notificationTemplatesWarningExpander')"><h3><span id="notificationTemplatesWarningExpander" class="img-common img-minus" style="display:inline-block"></span></a>Warning (1)</h3></td></tr><tbody id="notificationTemplatesWarning" style="display:"><tr><td><span class="yellow">&#x2757;</span></td><td></td><td>name</td><td></td><td></td><td style="width:30%"><ol>Warnings (1)<li>cat:warnid</li></ol></td></tr></tbody><tr><td colspan="2" class="headerCell"><a onclick="toggleDisplayById('notificationTemplatesSuccess', 'notificationTemplatesSuccessExpander')"><h3><span id="notificationTemplatesSuccessExpander" class="img-common img-plus" style="display:inline-block"></span></a>Success (2)</h3></td></tr><tbody id="notificationTemplatesSuccess" style="display:none"><tr><td><span class="green">&#x2714;</span></td><td></td><td>name</td><td></td><td></td><td style="width:30%" /></tr><tr><td><span class="green">&#x2714;</span></td><td></td><td>name</td><td></td><td></td><td style="width:30%" /></tr></tbody></table><h2><a name="ntf" onclick="toggleDisplayById('notifications', 'notificationsTableExpander')"><span id="notificationsTableExpander" class="img-common img-minus" style="display:inline-block"></span></a>Notifications (3)</h2><table id="notifications"><tr><th>Outcome</th><th>Element</th><th>Legacy Notification</th><th>Migrated Notification Rule</th><th>Migrated Analysis</th><th>Event Frames Migrated</th><th>History Instances Processed</th><th>Messages</th></tr><tr><td colspan="2" class="headerCell"><a onclick="toggleDisplayById('notificationsError', 'notificationsErrorExpander')"><h3><span id="notificationsErrorExpander" class="img-common img-minus" style="display:inline-block"></span></a>Error (1)</h3></td></tr><tbody id="notificationsError" style="display:"><tr><td><span class="red">&#x2718;</span></td><td></td><td>name</td><td></td><td></td><td>25</td><td>26</td><td style="width:30%"><ol>Errors (1)<li>cat:errid</li></ol></td></tr></tbody><tr><td colspan="2" class="headerCell"><a onclick="toggleDisplayById('notificationsSuccess', 'notificationsSuccessExpander')"><h3><span id="notificationsSuccessExpander" class="img-common img-plus" style="display:inline-block"></span></a>Success (2)</h3></td></tr><tbody id="notificationsSuccess" style="display:none"><tr><td><span class="green">&#x2714;</span></td><td></td><td>name</td><td>name</td><td>name; name; name; name; name</td><td>16</td><td>17</td><td style="width:30%" /></tr><tr><td><span class="green">&#x2714;</span></td><td></td><td>name</td><td>name</td><td>name; name; name; name; name</td><td>34</td><td>35</td><td style="width:30%" /></tr></tbody></table><h2><a name="autoGenNtfRule" onclick="toggleDisplayById('autoGenNotifRule_section', 'autoGenNotifRuleSectionExpander')"><span id="autoGenNotifRuleSectionExpander" class="img-common img-minus" style="display:inline-block"></span></a>Auto-created Notification Rules and Analyses (0)</h2><div id="autoGenNotifRule_section"><p style="color:#1382CE">&nbsp;&nbsp;If an element template had a corresponding legacy notification template then during migration analysis and notification rules will be created automatically for all elements from the template.</p><table id="autoGenNotifRule_table"><tr><th>Element</th><th>Notification Rule</th><th>Analysis</th></tr></table></div></div></body></html>

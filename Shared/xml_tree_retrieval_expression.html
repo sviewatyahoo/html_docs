@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>1st Diagrams</h2>
+
+<pre><code>
+
+statement := "show" vis "with" conditions
+vis := data
+data := data [affix data] 
+affix := "vs" | ", "
+
+<< Single Tree >>
+show A 
+show root of A
+show leaves of A
+show common ancestor of A and B
+show parent of A
+show grand parent of A
+show child of A
+show grand child of A
+show cousin of A
+show siblings of A
+show uncle of A
+show ancestor of A
+show descendant of A
+
+statement := "show" target
+target := target | target_specifier target
+target_specifier := specifier "of" target ["and" target]
+specifier := "root" | "leaves" | parent | child | cousin | siblings | uncle | ancestor | descendant
+parent := ["grand"] parent
+child := ["grand"] child
+child := ["grand"] child
+</code></pre>
+</body>
+</html> 

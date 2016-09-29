@@ -1,0 +1,50 @@
+<style>
+header {
+    background-color:black;
+    color:white;
+    text-align:center;
+    padding:5px; 
+}
+nav {
+    line-height:30px;
+    background-color:#eeeeee;
+    height:2000px;
+    width:400px;
+    float:left;
+    padding:5px; 
+}
+section {
+    width:350px;
+    float:left;
+    padding:10px; 
+}
+footer {
+    background-color:black;
+    color:white;
+    clear:both;
+    text-align:center;
+    padding:5px; 
+}
+
+.column-left{ 
+   float: left;
+    height:2000px;
+    width:200px;
+    line-height:30px;
+    background-color:#eeeeee;
+    float:left;
+    padding:5px; 
+}
+
+.column-right{ 
+    display: inline-block;
+    height:1500px;
+    width:600px; 
+}
+
+.column-center{ 
+    float : left;
+    height:1500px;
+    width:200px;
+}
+</style>

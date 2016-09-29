@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Windows Identity and Account</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="basic.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+    <script type="text/javascript">
+    function loadContent(elementSelector, sourceUrl) {
+        $(elementSelector).load(sourceUrl);
+    }
+    </script>
+
+</head>
+<body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#000080" alink="#FF0000">  
+<h2>Impersonation</h2>
+    
+<a target="_blank" href="http://michiel.vanotegem.nl/2006/07/windowsimpersonationcontext-made-easy/">WindowsImpersonateContext made easy</a><br>
+<a target="_blank" href="https://msdn.microsoft.com/en-us/library/chf6fbt4.aspx">WindowsIdentity.Impersonate Method(IntPtr)</a><br>
+<a target="_blank" href="http://stackoverflow.com/questions/125341/how-do-you-do-impersonation-in-net">Impersonation in .NET</a><br>
+<a target="_blank" href="https://github.com/mj1856/SimpleImpersonation">Source Code</a><br>
+<div>
+<pre>
+using (new Impersonation(domain, username, password))
+{
+    // do whatever you want
+}
+</pre>    
+</div>
+    
+<div>
+
+    
+<pre>
+using System;
+using System.Runtime.ConstrainedExecution;
+using System.Runtime.InteropServices;
+using System.Security;
+using System.Security.Permissions;
+using System.Security.Principal;
+using Microsoft.Win32.SafeHandles;
+
+namespace MyApplication
+{
+    [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+    public class Impersonation : IDisposable
+    {
+        private readonly SafeTokenHandle _handle;
+        private readonly WindowsImpersonationContext _context;
+
+        const int LOGON32_LOGON_NEW_CREDENTIALS = 9;
+
+        public Impersonation(string domain, string username, string password)
+        {
+            var ok = LogonUser(username, domain, password,
+                           LOGON32_LOGON_NEW_CREDENTIALS, 0, out this._handle);
+            if (!ok)
+            {
+                var errorCode = Marshal.GetLastWin32Error();
+                throw new ApplicationException(string.Format("Could not impersonate the elevated user.  LogonUser returned error code {0}.", errorCode));
+            }
+
+            this._context = WindowsIdentity.Impersonate(this._handle.DangerousGetHandle());
+        }
+
+        public void Dispose()
+        {
+            this._context.Dispose();
+            this._handle.Dispose();
+        }
+
+        [DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        private static extern bool LogonUser(String lpszUsername, String lpszDomain, String lpszPassword, int dwLogonType, int dwLogonProvider, out SafeTokenHandle phToken);
+
+        public sealed class SafeTokenHandle : SafeHandleZeroOrMinusOneIsInvalid
+        {
+            private SafeTokenHandle()
+                : base(true) { }
+
+            [DllImport("kernel32.dll")]
+            [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+            [SuppressUnmanagedCodeSecurity]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            private static extern bool CloseHandle(IntPtr handle);
+
+            protected override bool ReleaseHandle()
+            {
+                return CloseHandle(handle);
+            }
+        }
+    }
+}
+</pre>
+</div>
+</body>
+</html>
